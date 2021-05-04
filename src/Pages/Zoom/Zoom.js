@@ -2,14 +2,14 @@ import React from "react";
 import axios from "axios/index";
 import Loader from "../../Components/Loader";
 import './Zoom.css'
-import {RedOutlineButton} from "../../Components/RedOutlineButton";
+import { RedOutlineButton } from "../../Components/RedOutlineButton";
 import Dictaphone from "../../Components/Dictaphone";
-import {SimilarWords} from "../../Components/SimilarWords";
-import {GenerateQuiz} from "../../Components/GenerateQuiz";
+import { SimilarWords } from "../../Components/SimilarWords";
+import { GenerateQuiz } from "../../Components/GenerateQuiz";
 
 const _ = require('lodash');
-const punctuator = require('punctuator');
-const pos = require('pos');
+// const punctuator = require('punctuator');
+// const pos = require('pos');
 const baseURL = "https://nlapi.expert.ai";
 const language = "en";
 const Zoom = () => {
@@ -76,7 +76,7 @@ const Zoom = () => {
             "accept": "application/json",
             "Content-Type": "application/json; charset=utf-8"
         }
-        axios.post(`https://ytb-api.azurewebsites.net/api/ytb-summary-01`, payload, {headers: headers})
+        axios.post(`https://ytb-api.azurewebsites.net/api/ytb-summary-01`, payload, { headers: headers })
             .then(res => {
                 console.log(res);
                 if (res.data !== null) {
@@ -111,7 +111,7 @@ const Zoom = () => {
                 if (res.status === 200) {
                     const t = "Bearer " + res.data
                     await setToken(t);
-                    var object = {token: t, timestamp: new Date().getTime()}
+                    var object = { token: t, timestamp: new Date().getTime() }
                     localStorage.setItem("key", JSON.stringify(object));
                     return t;
                 }
@@ -134,7 +134,7 @@ const Zoom = () => {
                 "Authorization": t,
                 "Content-Type": "application/json; charset=utf-8"
             }
-            axios.post(`${baseURL}/v2/analyze/standard/${language}/sentiment`, payload, {headers: headers})
+            axios.post(`${baseURL}/v2/analyze/standard/${language}/sentiment`, payload, { headers: headers })
                 .then(r => {
                     setSaLoader(false);
                     let sentiment = r.data.data.sentiment;
@@ -158,7 +158,7 @@ const Zoom = () => {
                 "Authorization": t,
                 "Content-Type": "application/json; charset=utf-8"
             }
-            axios.post(`${baseURL}/v2/analyze/standard/${language}/entities`, payload, {headers: headers})
+            axios.post(`${baseURL}/v2/analyze/standard/${language}/entities`, payload, { headers: headers })
                 .then(res => {
                     setKnLoader(false);
                     let arr = res.data['data']['entities'];
@@ -166,7 +166,7 @@ const Zoom = () => {
                     captions.forEach(caption => {
                         for (let i = 0; i < arr.length; i++) {
                             if (_.includes(caption.text, arr[i].lemma.replace("_", " "))) {
-                                matches.push({...caption, matchedPhrase: arr[i].lemma});
+                                matches.push({ ...caption, matchedPhrase: arr[i].lemma });
                                 break;
                             }
                         }
@@ -189,7 +189,7 @@ const Zoom = () => {
             const end = summary[s]['end'];
             html.push(<span>
                 <span>{transcript.substring(prev, start)}</span>
-                <br/>
+                <br />
                 <span className={'highlight'}>{transcript.substring(start, end)}</span>
             </span>);
             prev = end;
@@ -221,7 +221,7 @@ const Zoom = () => {
                 "Authorization": t,
                 "Content-Type": "application/json; charset=utf-8"
             }
-            return axios.post(`${baseURL}/v2/analyze/standard/${language}/relevants`, payload, {headers: headers})
+            return axios.post(`${baseURL}/v2/analyze/standard/${language}/relevants`, payload, { headers: headers })
                 .then(res => {
                     return res.data['data'];
                 }).catch(err => console.log(err));
@@ -249,7 +249,7 @@ const Zoom = () => {
         captions.forEach(caption => {
             for (let i = 0; i < arr.length; i++) {
                 if (_.includes(caption.text, arr[i].replace("_", " "))) {
-                    matches.push({...caption, matchedPhrase: arr[i]});
+                    matches.push({ ...caption, matchedPhrase: arr[i] });
                     break;
                 }
             }
@@ -294,12 +294,12 @@ const Zoom = () => {
                     <div className="inner">
                         <label itemID="youtubeUrl">Zoom Transcript *</label>
                         <input className="input" type="file" name="Zoom Transcript" id="youtubeUrl"
-                               placeholder="Select Zoom Transcript"
-                               onChange={async (e) => {
-                                   await showFile(e);
-                               }}/>
+                            placeholder="Select Zoom Transcript"
+                            onChange={async (e) => {
+                                await showFile(e);
+                            }} />
                         <button type="submit" className="button button-v2" onClick={zoomHandler}>Get Started</button>
-                        {loader ? <Loader/> : ""}
+                        {loader ? <Loader /> : ""}
                     </div>
                 </div>
                 <div className="col-md-6">
@@ -314,16 +314,16 @@ const Zoom = () => {
                                         </div>
                                     ))}
                                 </div> :
-                                <div className="dummy-zoom"/>}
+                                <div className="dummy-zoom" />}
                         </header>
                     </div>
-                    {topics.length > 0 ? topics.map(topic => <div style={{"display": "inline-table"}}><span
+                    {topics.length > 0 ? topics.map(topic => <div style={{ "display": "inline-table" }}><span
                         className="button button-v4 button-sm">#{topic}</span></div>) : ""}
                 </div>
             </div>
             {captions.length > 0 && transcript.length > 0 && topics.length > 0 ?
                 <div>
-                    <div className="row" style={{"margin-bottom": "40px"}}>
+                    <div className="row" style={{ "margin-bottom": "40px" }}>
                         <h3 className="fontsize-md color-dark">Select Any</h3>
                         <div className="col-md-8">
                             <div className="inline">
@@ -370,17 +370,17 @@ const Zoom = () => {
                         {vis1 ?
                             <div className="col-md-12">
                                 <h2>Summary</h2>
-                                {summaryLoader ? <Loader/> : ""}
+                                {summaryLoader ? <Loader /> : ""}
                                 {transcript.length > 0 ? <span>{getSummary()}</span> : ""}
                             </div>
                             : ""}
                         {vis2 ?
                             <div className="col-md-12">
                                 <h2>Key Notes</h2>
-                                {knLoader ? <Loader/> : ""}
-                                {keyMatchedCaptions.map(c => <div style={{"display": "inline-table"}}>
+                                {knLoader ? <Loader /> : ""}
+                                {keyMatchedCaptions.map(c => <div style={{ "display": "inline-table" }}>
                                     <button className="button button-v3 button-sm"
-                                            type="submit">{c.matchedPhrase} - {c.start}</button>
+                                        type="submit">{c.matchedPhrase} - {c.start}</button>
                                 </div>)}
                                 {!keyMatchedCaptionFound ? "Try with a different phrase" : null}
                             </div> : ""
@@ -393,10 +393,10 @@ const Zoom = () => {
                                         <div className="col-md-6">
                                             <label itemID="phrase">Phrase *</label>
                                             <input className="input" type="text" name="Phrase"
-                                                   id="phrase"
-                                                   value={phrase}
-                                                   placeholder="Enter Phrase"
-                                                   onChange={(e) => setPhrase(e.target.value)}/>
+                                                id="phrase"
+                                                value={phrase}
+                                                placeholder="Enter Phrase"
+                                                onChange={(e) => setPhrase(e.target.value)} />
                                         </div>
                                         <div className="col-md-6">
                                             <label itemID="phrase">Try Speaking Instead</label>
@@ -404,14 +404,14 @@ const Zoom = () => {
                                         </div>
                                         <div className="col-md-12">
                                             <button className="button button-v2" type="submit"
-                                                    onClick={searchPhraseHandler}>Search
+                                                onClick={searchPhraseHandler}>Search
                                             </button>
                                         </div>
                                     </div>
-                                    {spLoader ? <Loader/> : ""}
-                                    {matchedCaptions.map(c => <div style={{"display": "inline-table"}}>
+                                    {spLoader ? <Loader /> : ""}
+                                    {matchedCaptions.map(c => <div style={{ "display": "inline-table" }}>
                                         <button className="button button-v3 button-sm"
-                                                type="submit">{c.matchedPhrase} - {c.start}</button>
+                                            type="submit">{c.matchedPhrase} - {c.start}</button>
                                     </div>)}
                                     {!matchedCaptionFound ? "Try with a different phrase" : null}
                                 </div>
@@ -420,12 +420,12 @@ const Zoom = () => {
                         {vis4 ?
                             <div className="col-md-12">
                                 <h2>Sentimental Analysis</h2>
-                                {saLoader ? <Loader/> : ""}
+                                {saLoader ? <Loader /> : ""}
                                 <div className={"row"}>
                                     <div className={"col-md-5"}>
                                         <h4 className={"text-centre"}>Overall Sentiment</h4>
                                         <p className={"fontsize-lg text-centre color-primary sentiment-score"}>{overallSentiment}</p>
-                                        <p className={"fontsize-xs text-right"}>-100 Most Negative <br/> 100 Most
+                                        <p className={"fontsize-xs text-right"}>-100 Most Negative <br /> 100 Most
                                             Positive</p>
                                     </div>
                                 </div>
@@ -434,7 +434,7 @@ const Zoom = () => {
                         {vis5 ?
                             <div className="col-md-12">
                                 <h2>Quiz</h2>
-                                {quizLoader ? <Loader/> : ""}
+                                {quizLoader ? <Loader /> : ""}
                                 <ol>
                                     {quiz.length > 0 ? quiz.map(q => (<li>
                                         <h4 className="color-primary fontsize-sm">{q?.sentence}</h4>
@@ -445,9 +445,9 @@ const Zoom = () => {
                                                 } else document.getElementById(q.answer).innerHTML = 'Incorrect Answer'
                                             }
                                             } className="color-dark fontsize-sm option"
-                                                                     style={{"text-transform": "capitalize"}}>{o}</li>)}
+                                                style={{ "text-transform": "capitalize" }}>{o}</li>)}
                                         </ol>
-                                        <p id={q.answer} className="color-primary"/>
+                                        <p id={q.answer} className="color-primary" />
                                     </li>)) : "Generating Quiz..."}
                                 </ol>
                             </div> : ""

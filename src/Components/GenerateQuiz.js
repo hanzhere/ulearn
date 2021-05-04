@@ -1,7 +1,7 @@
 import axios from "axios/index";
-import {SimilarWords} from "./SimilarWords";
+import { SimilarWords } from "./SimilarWords";
 
-const _ = require('lodash');
+// const _ = require('lodash');
 const baseURL = "https://nlapi.expert.ai";
 const language = "en";
 export const GenerateQuiz = async (transcript, keyNotes, token) => {
@@ -15,7 +15,7 @@ export const GenerateQuiz = async (transcript, keyNotes, token) => {
         "Authorization": token,
         "Content-Type": "application/json; charset=utf-8"
     }
-    return axios.post(`${baseURL}/v2/analyze/standard/${language}/disambiguation`, payload, {headers: headers})
+    return axios.post(`${baseURL}/v2/analyze/standard/${language}/disambiguation`, payload, { headers: headers })
         .then(async res => {
 
             const data = res.data['data'];

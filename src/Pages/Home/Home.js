@@ -4,17 +4,17 @@ import axios from "axios/index";
 import YoutubeIFrame from "../../Components/YoutubeIFrame";
 import Loader from "../../Components/Loader";
 import Chart from "chart.js";
-import LanguageSelector from "../../Components/LanguageSelector";
+// import LanguageSelector from "../../Components/LanguageSelector";
 import { StartBanner } from "../../Components/StartBanner";
 import { RedOutlineButton } from "../../Components/RedOutlineButton";
 import Dictaphone from "../../Components/Dictaphone";
 import { SimilarWords } from "../../Components/SimilarWords";
-import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
+// import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
 import { GenerateQuiz } from "../../Components/GenerateQuiz";
 
 const _ = require('lodash');
 const punctuator = require('punctuator');
-const pos = require('pos');
+// const pos = require('pos');
 
 
 const Home = () => {
