@@ -280,6 +280,7 @@ const Zoom = () => {
             case 5:
                 setVis5(true);
                 break;
+            default: break;
         }
 
     };
